@@ -57,7 +57,6 @@ func checkProxy() *proxys.IProxy {
 	return &proxyIP
 }
 
-//go:embed web/*
 var staticFiles embed.FS
 
 func registerRouter() *gin.Engine {
@@ -98,7 +97,31 @@ func registerRouter() *gin.Engine {
 	return router
 }
 
-func init() {
+// func Init() {
+// 	gin.SetMode(gin.ReleaseMode)
+// 	router := registerRouter()
+
+// 	_ = godotenv.Load(".env")
+// 	host := os.Getenv("SERVER_HOST")
+// 	port := os.Getenv("SERVER_PORT")
+// 	tlsCert := os.Getenv("TLS_CERT")
+// 	tlsKey := os.Getenv("TLS_KEY")
+
+// 	if host == "" {
+// 		host = "0.0.0.0"
+// 	}
+// 	if port == "" {
+// 		port = "8080"
+// 	}
+
+//		if tlsCert != "" && tlsKey != "" {
+//			_ = endless.ListenAndServeTLS(host+":"+port, tlsCert, tlsKey, router)
+//		} else {
+//			_ = endless.ListenAndServe(host+":"+port, router)
+//		}
+//		serve = router
+//	}
+func Listen(w http.ResponseWriter, r *http.Request) {
 	gin.SetMode(gin.ReleaseMode)
 	router := registerRouter()
 
@@ -120,8 +143,6 @@ func init() {
 	} else {
 		_ = endless.ListenAndServe(host+":"+port, router)
 	}
-	serve = router
-}
-func Lestion(w http.ResponseWriter, r *http.Request) {
-	serve.ServeHTTP(w, r)
+
+	router.ServeHTTP(w, r)
 }
