@@ -1,4 +1,4 @@
-package main
+package api
 
 import (
 	"aurora/internal/proxys"
@@ -15,6 +15,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
+
+var serve *gin.Engine
 
 func checkProxy() *proxys.IProxy {
 	var proxies []string
@@ -96,7 +98,7 @@ func registerRouter() *gin.Engine {
 	return router
 }
 
-func main() {
+func init() {
 	gin.SetMode(gin.ReleaseMode)
 	router := registerRouter()
 
@@ -118,4 +120,8 @@ func main() {
 	} else {
 		_ = endless.ListenAndServe(host+":"+port, router)
 	}
+	serve = router
+}
+func Lestion(w http.ResponseWriter, r *http.Request) {
+	serve.ServeHTTP(w, r)
 }

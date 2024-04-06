@@ -1,4 +1,4 @@
-package main
+package api
 
 import (
 	chatgptrequestconverter "aurora/conversion/requests/chatgpt"
@@ -7,9 +7,10 @@ import (
 	"aurora/internal/proxys"
 	"aurora/internal/tokens"
 	officialtypes "aurora/typings/official"
+	"strings"
+
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	"strings"
 )
 
 type Handler struct {
